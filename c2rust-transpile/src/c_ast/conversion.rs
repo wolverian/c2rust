@@ -908,6 +908,15 @@ impl ConversionContext {
                     self.processed_nodes.insert(new_id, OTHER_STMT);
                 }
 
+                // FIXME: look at the attribute and take appropriate action
+                ASTEntryTag::TagAttributedStmt if expected_ty & OTHER_STMT != 0 => {
+                    let substmt = node.children[0].map(|id| self.visit_stmt(id));
+                    let default = CStmtKind::Default(substmt.unwrap());
+
+                    self.add_stmt(new_id, located(node, default));
+                    self.processed_nodes.insert(new_id, OTHER_STMT);
+                }
+
                 ASTEntryTag::TagForStmt if expected_ty & OTHER_STMT != 0 => {
                     let init = node.children[0].map(|id| self.visit_stmt(id));
 

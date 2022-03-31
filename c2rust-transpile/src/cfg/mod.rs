@@ -1675,6 +1675,13 @@ impl CfgBuilder {
                     Ok(sub_stmt_next.map(|l| self.new_wip_block(l)))
                 }
 
+                CStmtKind::Attributed { substatement, .. } => {
+                    match translator.ast_context.index(substatement).kind {
+                        CStmtKind::Empty => Ok(Some(wip)),
+                        _ => panic!("Support for non-empty attributed statements not implemented"),
+                    }
+                }
+
                 CStmtKind::Goto(label_id) => {
                     let tgt_label = Label::FromC(label_id);
                     self.add_wip_block(wip, Jump(tgt_label));
