@@ -15,6 +15,9 @@
                 "--security-opt",
                 "label=disable"
         ],
+        "mounts": [
+                "source=nix,target=/nix,type=volume"
+        ],
         "containerEnv": {
                 // extensions to preload before other extensions
                 "PRELOAD_EXTENSIONS": "arrterian.nix-env-selector"
@@ -26,12 +29,10 @@
         //"onCreateCommand": "nix-shell --command 'echo done building nix dev environment'",
         // Add the IDs of extensions you want installed when the container is created.
         "extensions": [
-                // select nix environment
                 "arrterian.nix-env-selector",
-                // extra extensions
-                //"fsevenm.run-it-on",
-                //"jnoortheen.nix-ide",
-                //"ms-python.python"
+                "matklad.rust-analyzer",
+                "jnoortheen.nix-ide",
+                "fsevenm.run-it-on"
         ],
         // Use 'forwardPorts' to make a list of ports inside the container available locally.
         "forwardPorts": [],
